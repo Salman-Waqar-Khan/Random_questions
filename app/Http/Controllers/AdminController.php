@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Question;
 
+
 class AdminController extends Controller
 {
     // Display the admin dashboard
@@ -44,6 +45,7 @@ class AdminController extends Controller
         return view('admin.questions', compact('categories', 'questions'));
     }
 
+
     // Store a new question
     public function storeQuestion(Request $request)
     {
@@ -58,4 +60,12 @@ class AdminController extends Controller
 
         return redirect()->route('admin.questions')->with('success', 'Question added successfully');
     }
+
+
+    public function viewAuditLogs()
+        {
+            $auditLogs = AuditLog::latest()->get();
+
+            return view('admin.audit_logs', compact('auditLogs'));
+        }
 }

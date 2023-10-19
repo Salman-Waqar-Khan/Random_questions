@@ -6,20 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+ /*    public function up()
     {
         Schema::table('questions', function (Blueprint $table) {
             $table->boolean('used')->default(false);
         });
     }
-
+ */
     /**
      * Reverse the migrations.
      */
-    public function down()
+ /*    public function down()
     {
         Schema::table('questions', function (Blueprint $table) {
             $table->dropColumn('used');
         });
-    }
+    } */
 };

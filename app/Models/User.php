@@ -11,10 +11,15 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class)->withTimestamps();
+    }
+   
     public function isAdmin()
-{
-    return $this->role === 'admin';
-}
+    {
+        return $this->role === 'admin';
+    }
 
     /**
      * The attributes that are mass assignable.
