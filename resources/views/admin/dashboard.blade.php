@@ -23,6 +23,8 @@
                     <div class="card-body">
                         <a href="{{ route('admin.questions') }}" class="btn btn-primary">Manage Questions</a>
                     </div>
+                    <div class="card-body">
+                        <a href="{{ route('admin.questions.index') }}">Admin Questions</a>                    </div>
                 </div>
             </div>
         </div>

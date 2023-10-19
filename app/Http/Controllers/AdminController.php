@@ -9,7 +9,7 @@ use App\Models\Question;
 
 class AdminController extends Controller
 {
-    // Display the admin dashboard
+
     public function dashboard()
     {
         return view('admin.dashboard');
@@ -22,7 +22,7 @@ class AdminController extends Controller
         return view('admin.categories', compact('categories'));
     }
 
-    // Store a new category
+
     public function storeCategory(Request $request)
     {
         $request->validate([
@@ -36,11 +36,11 @@ class AdminController extends Controller
         return redirect()->route('admin.categories')->with('success', 'Category added successfully');
     }
 
-    // Display the questions management page
+
     public function questions()
     {
-        $categories = Category::all(); // Fetch the categories
-        $questions = Question::all(); // Fetch the questions or adjust as needed
+        $categories = Category::all();
+        $questions = Question::all();
 
         return view('admin.questions', compact('categories', 'questions'));
     }
@@ -55,17 +55,12 @@ class AdminController extends Controller
 
         $question = new Question();
         $question->content = $request->input('question_content');
-        $question->category_id = $request->input('category_id'); // Adjust this according to your form
+        $question->category_id = $request->input('category_id');
         $question->save();
 
         return redirect()->route('admin.questions')->with('success', 'Question added successfully');
     }
 
 
-    public function viewAuditLogs()
-        {
-            $auditLogs = AuditLog::latest()->get();
 
-            return view('admin.audit_logs', compact('auditLogs'));
-        }
 }

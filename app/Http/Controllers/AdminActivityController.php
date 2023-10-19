@@ -1,19 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\AuditLog;
+
 
 class AdminActivityController extends Controller
 {
 
-/* public function viewAuditLogs()
-{
-    $auditLogs = AuditLog::latest()->get();
-    error_log('Audit Log Count: ' . count($auditLogs));
 
-    return view('admin.audit_logs', compact('auditLogs'));
-} */
+public function index()
+{
+    // fetch data for the view whic are used by the user
+    $users = User::with('questions')->get();
+
+    return view('admin.questions.index', compact('users'));
+}
 
 }

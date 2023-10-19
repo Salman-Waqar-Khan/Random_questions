@@ -25,7 +25,7 @@ class CategoryController extends Controller
     {
         $user = auth()->user();
 
-        // Fetch questions for the category that the user hasn't seen
+        // fetch questions for the category that the user hasn't seen
         $questions = Question::where('category_id', $categoryId)
             ->whereDoesntHave('users', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
@@ -35,14 +35,14 @@ class CategoryController extends Controller
             ->get();
 
         if ($questions->isEmpty()) {
-            return view('no_more_questions'); // Handle the case where no more questions are available
+            return view('no_more_questions');
         }
 
-        // Attach the questions to the user
+        // attaching the questions to the user
         $user->questions()->attach($questions);
 
-        // Rest of your code for displaying the questions to the user
-        $noMoreQuestions = false; // Assuming there are more questions to be shown
+
+        $noMoreQuestions = false;
 
         return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
 
@@ -61,7 +61,7 @@ $questions = Question::where('category_id', $categoryId)
 
 if ($questions->isEmpty()) {
     $noMoreQuestions = true; // No more questions are available
-    return view('no_more_questions'); // Handle the case where no more questions are available
+    return view('no_more_questions');
 }
 
 // Mark the questions as used by the user
@@ -91,7 +91,7 @@ return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
             ->get();
 
         if ($questions->isEmpty()) {
-            return view('no_more_questions'); // Handle the case where no more questions are available
+            return view('no_more_questions');
         }
 
         // Mark the questions as used by the user
@@ -116,7 +116,7 @@ return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
             ->inRandomOrder()
             ->limit(2)
             ->get();
-            $noMoreQuestions = false; // Assuming there are more questions to be shown
+            $noMoreQuestions = false;
 
             return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
 
@@ -129,7 +129,7 @@ return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
             ->inRandomOrder()
             ->limit(2)
             ->get();
-            $noMoreQuestions = false; // Assuming there are more questions to be shown
+            $noMoreQuestions = false;
 
             return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
 
@@ -159,7 +159,7 @@ return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
 
         // fetch unused questions for the category
         $questions = Question::where('category_id', $categoryId)
-            ->whereNotIn('id', $usedQuestionIds) // Exclude used questions
+            ->whereNotIn('id', $usedQuestionIds)
             ->inRandomOrder()
             ->limit(2)
             ->get();
@@ -176,17 +176,13 @@ return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
         return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
     }
 
-     public function selectQuestion(Request $request, $questionId)
-        {
-            $user = auth()->user();
+    public function selectQuestion(Request $request, $questionId)
+    {
+        $user = auth()->user();
 
-            // Find and update the selected question's used status
-            $question = Question::find($questionId);
-            if ($question) {
-                $question->used = 1;
-                $question->save();
-            }
-        }
+        // attach selected questions to  user in the pivot table
+        $user->questions()->attach($questionId);
+    }
          /*   // Log the user's action
             $auditLog = new AuditLog();
             $auditLog->user_id = $user->id;

@@ -15,7 +15,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Question::class)->withTimestamps();
     }
-   
+
     public function isAdmin()
     {
         return $this->role === 'admin';
