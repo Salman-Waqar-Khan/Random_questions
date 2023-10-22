@@ -12,7 +12,7 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->insert([
+      /*   DB::table('categories')->insert([
             'name' => 'Category A',
         ]);
         DB::table('categories')->insert([
@@ -20,6 +20,6 @@ class CategorySeeder extends Seeder
         ]);
         DB::table('categories')->insert([
             'name' => 'Category C',
-        ]);
+        ]); */
     }
 }

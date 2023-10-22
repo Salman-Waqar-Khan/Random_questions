@@ -23,30 +23,37 @@ class CategoryController extends Controller
     public function getQuestionsPage($categoryId)
 
     {
-        $user = auth()->user();
 
-        // fetch questions for the category that the user hasn't seen
-        $questions = Question::where('category_id', $categoryId)
-            ->whereDoesntHave('users', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->inRandomOrder()
-            ->limit(2)
-            ->get();
+        if (auth()->check()) {
+            //  user is authenticated
+            $user = auth()->user();
 
-        if ($questions->isEmpty()) {
-            return view('no_more_questions');
-        }
+            // fetching question for the category that hasn't used
+            $questions = Question::where('category_id', $categoryId)
 
-        // attaching the questions to the user
-        $user->questions()->attach($questions);
+                ->whereDoesntHave('users', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->inRandomOrder()
+                ->limit(1)
+                ->get();
+           /*  dd($questions); */
+            if ($questions->isEmpty()) {
+                dd(1);
+                return view('no_more_questions');
+            }
 
+            // attachiing the questions to  user
+            $user->questions()->attach($questions);
 
-        $noMoreQuestions = false;
+            $noMoreQuestions = false;
 
-        return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
+            return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
+        } else {
 
+            return redirect('/login');
 
+    }
 
       /*   $user = auth()->user(); // Get the current user
 
@@ -174,7 +181,7 @@ return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
             ->count() === 0;
 
         return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
-    }
+        }
 
     public function selectQuestion(Request $request, $questionId)
     {

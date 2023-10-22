@@ -8,6 +8,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AdminActivityController;
 use App\Http\Controllers\AdminController; // Import the AdminController
 
+
+
+/* Route::get('login', function () {
+    return view('login');
+}); */
 // Public routes
 Route::get('/category', [CategoryController::class, 'index'])->name('category');
 Route::get('/questions/{category_id}', [CategoryController::class, 'getQuestionsPage'])->name('questions');

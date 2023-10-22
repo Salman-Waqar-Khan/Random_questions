@@ -12,7 +12,7 @@ class QuestionSeeder extends Seeder
      * Run the database seeds.
      */
     public function run()
-    {   $newQuestion = new Question();
+    {   /* $newQuestion = new Question();
         $newQuestion->content = 'what is get 1234?';
         $newQuestion->category_id = 1; // Replace with the actual category ID
         $newQuestion->used = false; // Assuming the question is initially unused
@@ -55,7 +55,7 @@ class QuestionSeeder extends Seeder
         $newQuestion->category_id = 3; // Replace with the actual category ID
         $newQuestion->used = false; // Assuming the question is initially unused
         $newQuestion->save();
-
+ */
 
 
 
@@ -185,7 +185,7 @@ class QuestionSeeder extends Seeder
         $newQuestion->category_id = 1; // Replace with the actual category ID
         $newQuestion->used = false; // Assuming the question is initially unused
         $newQuestion->save(); */
-        $questionId = $newQuestion->id;
+       /*  $questionId = $newQuestion->id; */
 
        /*  $newQuestion = new Question();
         $newQuestion->content = 'what is brothers name?';
@@ -256,9 +256,9 @@ class QuestionSeeder extends Seeder
             'category_id' => 3,
         ]); */
          // Mark a question as used
-        $question = Question::find($questionId); // Replace $questionId with the ID of the used question
+       /*  $question = Question::find($questionId); // Replace $questionId with the ID of the used question
         $question->used = true;
-        $question->save();
+        $question->save(); */
 
     }
 }
