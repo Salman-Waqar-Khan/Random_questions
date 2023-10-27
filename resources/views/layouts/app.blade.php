@@ -11,11 +11,11 @@
 
       body {
 
-        background-image: url('/images/Innovation4.png'); /* Adjust the path accordingly */
-        background-size: 500px 250px; /* Set the desired width and height */
+        background-image: url('/images/Innovation4.png');
+        background-size: 400px 200px;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        background-position: center top; /* Center align horizontally and place at the top */
+        background-position: center top;
         margin-top: 20px;
         padding-bottom: 50px;
         padding-top: 20px;
@@ -42,8 +42,8 @@
 
 <body class="bg-light" data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
     @guest
-    <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
-<a href="{{ route('register') }}" class="btn btn-secondary">Register</a>
+    {{-- <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+<a href="{{ route('register') }}" class="btn btn-secondary">Register</a> --}}
     @else
     <a href="{{ route('logout') }}"
     class="btn btn-dark"

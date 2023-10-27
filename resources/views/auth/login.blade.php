@@ -1,10 +1,11 @@
-@extends('layouts.app')
+
+ @extends('layouts.app')
 
 @section('content')
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="row">
         <div class="col-md-8">
-            <div class="card" style="width: 400px; margin-left: 80px;"> <!-- You can adjust width and margin-left as needed -->
+            <div class="card" style="width: 400px; margin-left: 100px; margin-top: 80px;">
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
@@ -43,7 +44,6 @@
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
                                     </label>
@@ -52,16 +52,13 @@
                         </div>
 
                         <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary mr-1"> <!-- Added mr-1 to reduce margin -->
                                     {{ __('Login') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
+                                <a href="{{ route('register') }}" class="btn btn-secondary">
+                                    {{ __('Register') }}
+                                </a>
                             </div>
                         </div>
                     </form>
@@ -71,3 +68,5 @@
     </div>
 </div>
 @endsection
+
+

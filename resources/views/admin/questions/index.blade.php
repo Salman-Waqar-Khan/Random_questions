@@ -1,11 +1,12 @@
-<!-- admin/view_seen_questions.blade.php -->
 
-@extends('layouts.app')
+
+ @extends('layouts.app')
 
 @section('content')
-    <h1>Seen Questions by Users</h1>
+<div class="container">
+    <h2>Seen Questions by Users</h2>
 
-    <table class="table">
+    <table class="table" style="background-color: white; padding: 10px;margin-left: 50px; margin-top: 100px">
         <thead>
             <tr>
                 <th>User</th>
@@ -32,3 +33,4 @@
         </tbody>
     </table>
 </div>
+@endsection
