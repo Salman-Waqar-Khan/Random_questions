@@ -53,7 +53,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary mr-1"> <!-- Added mr-1 to reduce margin -->
+                                <button type="submit" class="btn btn-primary mr-1"> 
                                     {{ __('Login') }}
                                 </button>
                                 <a href="{{ route('register') }}" class="btn btn-secondary">
