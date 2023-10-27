@@ -9,7 +9,9 @@ class Question extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'content','category_id',
+        'content',
+        'category_id',
+        'used', // Add the 'used' field to $fillable to allow mass assignment.
     ];
 
     public function category()

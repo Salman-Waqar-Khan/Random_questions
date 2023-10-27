@@ -1,22 +1,16 @@
 <?php
-
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AdminActivityController;
-use App\Http\Controllers\AdminController; // Import the AdminController
+use App\Http\Controllers\AdminController;
 
-
-
-/* Route::get('login', function () {
-    return view('login');
-}); */
 // Public routes
 Route::get('/category', [CategoryController::class, 'index'])->name('category');
-Route::get('/questions/{category_id}', [CategoryController::class, 'getQuestionsPage'])->name('questions');
-Route::post('/select-question/{questionId}', [CategoryController::class, 'selectQuestion'])->name('selectQuestion'); // Add this route
+Route::post('/get-questions', [CategoryController::class, 'getQuestionsPage'])->name('getQuestionsPage');
+Route::post('/question/{questionId}/select', [CategoryController::class, 'selectQuestion']);
 Route::post('/download-pdf/{category_id}', [CategoryController::class, 'downloadPDF'])->name('downloadPdf');
 
 // Admin routes
@@ -31,8 +25,10 @@ Route::middleware(['admin'])->group(function () {
     // Admin question management
     Route::get('/admin/questions', [AdminController::class, 'questions'])->name('admin.questions');
     Route::post('/admin/questions', [AdminController::class, 'storeQuestion'])->name('admin.storeQuestion');
-    Route::get('/admin/questions/index', [AdminActivityController::class, 'index'])->name('admin.questions.index'); // Updated route definition
-    /*  Route::get('/admin/audit-logs', [AdminActivityController::class, 'viewAuditLogs'])->name('admin.viewAuditLogs'); */ // Add this route
+    Route::get('/admin/questions/index', [AdminActivityController::class, 'index'])->name('admin.questions.index');
+
+    // Add more admin routes if needed
+
 });
 
 // Authentication routes (provided by Auth::routes())

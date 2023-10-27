@@ -19,202 +19,89 @@ class CategoryController extends Controller
         $categories = Category::all();
         return view('category_blade', compact('categories'));
     }
-   /*  $noMoreQuestions = false; */
-    public function getQuestionsPage($categoryId)
 
+
+    public function getQuestionsPage(Request $request)
     {
+        $categoryId = $request->input('category_id');
 
         if (auth()->check()) {
-            //  user is authenticated
             $user = auth()->user();
-
-            // fetching question for the category that hasn't used
             $questions = Question::where('category_id', $categoryId)
-
                 ->whereDoesntHave('users', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
                 })
                 ->inRandomOrder()
                 ->limit(1)
+                ->where('used', false)
                 ->get();
-           /*  dd($questions); */
+
             if ($questions->isEmpty()) {
-                dd(1);
-                return view('no_more_questions');
+                $noMoreQuestions = true;
+            } else {
+                $noMoreQuestions = false;
+                // marking the question as used
+                $question = $questions->first();
+                $question->used = true;
+                $question->save();
+                // attaching the question to the user
+                $user->questions()->attach($question->id);
             }
 
-            // attachiing the questions to  user
-            $user->questions()->attach($questions);
+            $category_id = $categoryId;
 
-            $noMoreQuestions = false;
+            $categories = Category::all();
 
-            return view('questions', compact('questions', 'categoryId', 'noMoreQuestions'));
-        } else {
+            return view('category_blade', compact('categories', 'questions', 'noMoreQuestions', 'category_id'));
+        }
 
-            return redirect('/login');
-
+        return redirect('/login');
     }
 
-      /*   $user = auth()->user(); // Get the current user
-
-// Fetch questions for the category that the user hasn't seen
-$questions = Question::where('category_id', $categoryId)
-    ->whereDoesntHave('users', function ($query) use ($user) {
-        $query->where('user_id', $user->id);
-    })
-    ->inRandomOrder()
-    ->limit(2)
-    ->get();
-
-if ($questions->isEmpty()) {
-    $noMoreQuestions = true; // No more questions are available
-    return view('no_more_questions');
-}
-
-// Mark the questions as used by the user
-$user->questions()->attach($questions);
-
-// Check if there are more unused questions in the category
-$noMoreQuestions = Question::where('category_id', $categoryId)
-    ->whereDoesntHave('users', function ($query) use ($user) {
-        $query->where('user_id', $user->id);
-    })
-    ->count() === 0;
-
-return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
-
-
-
-
-       /*  $user = auth()->user(); // Get the current user
-
-        // Fetch questions for the category that the user hasn't seen
-        $questions = Question::where('category_id', $categoryId)
-            ->whereDoesntHave('users', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->inRandomOrder()
-            ->limit(2)
-            ->get();
-
-        if ($questions->isEmpty()) {
-            return view('no_more_questions');
-        }
-
-        // Mark the questions as used by the user
-        $user->questions()->attach($questions);
-
-        // Rest of your code for displaying the questions to the user
-        $noMoreQuestions = false; // Assuming there are more questions to be shown
-
-        return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
-
-
-
-        //use for just to fetch random questions
-
-      /*   $user = auth()->user(); // Get the current user
-
-        // Fetch questions for the category that the user hasn't seen
-        $questions = Question::where('category_id', $categoryId)
-            ->whereDoesntHave('users', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })
-            ->inRandomOrder()
-            ->limit(2)
-            ->get();
-            $noMoreQuestions = false;
-
-            return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
-
-
-
-
-
-        // Fetch questions for the category
-      /*   $questions = Question::where('category_id', $categoryId)
-            ->inRandomOrder()
-            ->limit(2)
-            ->get();
-            $noMoreQuestions = false;
-
-            return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
-
-        /* error_log('Category ID: ' . $categoryId);
-        // Get used question IDs from the session
-        $usedQuestionIds = Session::get('used_question_ids', []);
-        error_log('Used Question IDs: ' . json_encode($usedQuestionIds));
-        // Fetch unused questions for the category
-        $questions = Question::where('category_id', $categoryId)
-            ->whereNotIn('id', $usedQuestionIds) // Exclude used questions
-            ->inRandomOrder()
-            ->limit(2)
-            ->get();
-
-        // Mark the retrieved questions as used
-        $usedQuestionIds = array_merge($usedQuestionIds, $questions->pluck('id')->toArray());
-        Session::put('used_question_ids', $usedQuestionIds);
-        error_log('Updated Used Question IDs: ' . json_encode($usedQuestionIds));
-        // Check if there are any unused questions left
-        $noMoreQuestions = Question::where('category_id', $categoryId)
-            ->whereNotIn('id', $usedQuestionIds)
-            ->count() === 0;
-            error_log('No More Questions: ' . $noMoreQuestions);
-        return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
-      /*   // Get used question id from the session
-        $usedQuestionIds = Session::get('used_question_ids', []);
-
-        // fetch unused questions for the category
-        $questions = Question::where('category_id', $categoryId)
-            ->whereNotIn('id', $usedQuestionIds)
-            ->inRandomOrder()
-            ->limit(2)
-            ->get();
-
-        // marki the retrieved questions  used
-        $usedQuestionIds = array_merge($usedQuestionIds, $questions->pluck('id')->toArray());
-        Session::put('used_question_ids', $usedQuestionIds);
-
-        // checking if there r any unused questions left
-        $noMoreQuestions = Question::where('category_id', $categoryId)
-            ->whereNotIn('id', $usedQuestionIds)
-            ->count() === 0;
-
-        return view('questions', compact('questions', 'categoryId', 'noMoreQuestions')); */
-        }
 
     public function selectQuestion(Request $request, $questionId)
     {
-        $user = auth()->user();
+         // get question
+        $question = Question::find($questionId);
 
-        // attach selected questions to  user in the pivot table
+        // Log used status
+        Log::info("Question {$question->id} - Used: {$question->used}");
+
+        // Mark as used
+        $question->used = true;
+        $question->save();
+
+        Log::info("Question {$question->id} marked as used");
+
+        // Attach to user
+        $user = Auth::user();
         $user->questions()->attach($questionId);
+
+        return redirect()->back();
     }
-         /*   // Log the user's action
-            $auditLog = new AuditLog();
-            $auditLog->user_id = $user->id;
-            $auditLog->action = 'select_question';
-            $auditLog->question_id = $questionId;
-            $auditLog->save();
-        } */
 
 
-    public function downloadPDF(Request $request, $categoryId)
-    {
-        $questionIds = $request->input('questionIds');
 
-        if (empty($questionIds)) {
-            return response()->json(['message' => 'No questions selected for PDF download'], 400);
+        public function downloadPDF(Request $request, $categoryId)
+        {
+            $questionIds = $request->input('questionIds');
+
+            if (empty($questionIds)) {
+                return response()->json(['message' => 'No questions selected for PDF download'], 400);
+            }
+
+            $questions = Question::whereIn('id', $questionIds)->get();
+
+            if ($questions->isEmpty()) {
+                return response()->json(['message' => 'No questions available for PDF download'], 404);
+            }
+
+            $pdf = new Dompdf();
+            $pdf->loadHtml(view('questions_pdf', compact('questions')));
+
+            $pdf->setPaper('A4', 'portrait');
+            $pdf->render();
+
+            return $pdf->stream('questions.pdf');
         }
-
-        $questions = Question::whereIn('id', $questionIds)->get();
-
-        if ($questions->isEmpty()) {
-            return response()->json(['message' => 'No questions available for PDF download'], 404);
-        }
-
-        $pdf = PDF::loadView('questions_pdf', compact('questions'));
-
-        return $pdf->download('questions.pdf');
-    }
 }
