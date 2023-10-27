@@ -20,10 +20,10 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         if (Auth::user()->isAdmin()) {
-            return '/admin/dashboard'; // Redirect admin users to the admin dashboard
+            return '/admin/dashboard';
         }
 
-        return '/category'; // Redirect other users to the /category route
+        return '/category';
     }
 
     public function logout(Request $request)
