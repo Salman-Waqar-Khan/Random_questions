@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="row">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card" style="width: 400px; margin-left: 80px;"> <!-- You can adjust width and margin-left as needed -->
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
