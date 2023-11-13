@@ -15,7 +15,7 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    // Display the categories management page
+    
     public function categories()
     {
         $categories = Category::all();

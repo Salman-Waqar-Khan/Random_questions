@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1 class="mt-3">Admin Dashboard</h1>
-                <p class="mt-3 pl-2">Welcome to the admin panel.<br> You can manage categories and questions here.</p> <!-- Added mt-3 and pl-2 for top and left padding -->
+                <p class="mt-3 pl-2">Welcome to the admin panel.<br> You can manage categories and questions here.</p>
             </div>
         </div>
         <div class="row">
@@ -22,7 +22,7 @@
                     <div class="card-header">Questions</div>
                     <div class="card-body">
                         <a href="{{ route('admin.questions') }}" class="btn btn-primary">Manage Questions</a>
-                    
+
                         <a href="{{ route('admin.questions.index') }} " class="btn btn-primary">Admin Questions</a>
                     </div>
                 </div>

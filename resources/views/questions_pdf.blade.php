@@ -1,4 +1,4 @@
-<!-- resources/views/questions_pdf.blade.php -->
+
 
 <!DOCTYPE html>
 <html>

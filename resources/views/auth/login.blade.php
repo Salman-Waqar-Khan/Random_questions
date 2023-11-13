@@ -1,5 +1,4 @@
-
- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
@@ -53,7 +52,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary mr-1"> 
+                                <button type="submit" class="btn btn-primary mr-1">
                                     {{ __('Login') }}
                                 </button>
                                 <a href="{{ route('register') }}" class="btn btn-secondary">
